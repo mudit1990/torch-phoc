@@ -20,8 +20,8 @@ from gen_small_sample_data import generate_word_images_from_list
 from gen_small_sample_data import generate_left_words_from_image
 import sys
 
-map_dir = '/media/archan/maps_project/maps/'
-anots_dir = '/media/archan/maps_project/annotations/current/'
+map_dir = '/home/mbhargava/MapTextRecognition/OriginalData/maps/'
+anots_dir = '/home/mbhargava/MapTextRecognition/OriginalData/annotations/current/'
 list_of_maps = []
 for i in glob.glob(map_dir+'*'):
 	_,_,f = i.rpartition('/')
@@ -44,12 +44,12 @@ for i in range(1, 6):
 
 
 # file name leads
-f3 = 'original_words_pad_'
-f4 = 'original_images_pad_'
+f3 = 'original_words_nopad_'
+f4 = 'original_images_nopad_'
 
 for files in list_of_maps:
 	list_of_files = [files]
-	original_words, _, original_images = generate_left_words_from_image(list_of_files, map_dir, anots_dir, padded=True, aspect=False)
+	original_words, _, original_images = generate_left_words_from_image(list_of_files, map_dir, anots_dir, padded=False, aspect=True)
 	np.save(f3+files+'.tiff', original_words)
 	np.save(f4+files+'.tiff', original_images)
 #'''

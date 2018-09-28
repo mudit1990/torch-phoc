@@ -137,8 +137,8 @@ def train():
         all_files = [x.strip('\n') for x in all_files]
         f.close()
 
-        train_set = MAPSDataset(map_root_dir1='/mnt/nfs/work1/elm/ray/original_images/nopad/',
-                               map_root_dir2='/mnt/nfs/work1/elm/ray/original_words/nopad/',
+        train_set = MAPSDataset(map_root_dir1='/home/mbhargava/MapTextRecognition/ProcessedData/',
+                               map_root_dir2='/home/mbhargava/MapTextRecognition/ProcessedData/',
                                all_files=all_files,
                                embedding=args.embedding_type,
                                phoc_unigram_levels=args.phoc_unigram_levels,
@@ -203,9 +203,11 @@ def train():
     # move CNN to GPU
     if args.gpu_id is not None:
         if len(args.gpu_id) > 1:
+            logger.info('Using multiple GPUs')
             cnn = nn.DataParallel(cnn, device_ids=args.gpu_id)
             cnn.cuda()
         else:
+            logger.info('Using single GPU')
             cnn.cuda(args.gpu_id[0])
 
     # run training
