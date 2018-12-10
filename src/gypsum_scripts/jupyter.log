@@ -1,0 +1,15 @@
+
+MacOS or linux terminal command to create your ssh tunnel:
+ssh -L 9910:node060:9910 -N mbhargava@gypsum.cs.umass.edu
+   
+Use a Browser on your local machine to go to:
+localhost:9910  (prefix w/ https:// if using password)
+
+[I 18:57:15.197 NotebookApp] Serving notebooks from local directory: /home/mbhargava/MapTextRecognition/mudit-torch-phoc/torch-phoc/src/gypsum_scripts
+[I 18:57:15.199 NotebookApp] The Jupyter Notebook is running at:
+[I 18:57:15.199 NotebookApp] http://node060:9910/
+[I 18:57:15.200 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[I 18:57:32.617 NotebookApp] 302 GET / (10.141.255.254) 1.67ms
+[I 18:57:32.630 NotebookApp] 302 GET /tree? (10.141.255.254) 2.23ms
+[I 18:57:36.733 NotebookApp] 302 POST /login?next=%2Ftree%3F (10.141.255.254) 5.94ms
+slurmstepd: error: *** JOB 4504548 ON node060 CANCELLED AT 2018-12-09T18:58:11 ***

@@ -1,1 +1,6 @@
 src/*.pt
+src/models/*.pt
+
+src/logs/*
+
+src/.ipynb_checkpoints/*
