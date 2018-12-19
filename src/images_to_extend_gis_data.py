@@ -24,7 +24,7 @@ from torch.utils.data.sampler import WeightedRandomSampler
 from cnn_ws.utils.save_load import my_torch_save, my_torch_load
 
 word_filter_len = 1 # only words above this length are considered valid
-max_var_len = 2 # max length word variation that needs to be done
+max_var_len = 1 # max length word variation that needs to be done
 
 if not torch.cuda.is_available():
     logger.warning('Could not find CUDA environment, using CPU mode')
@@ -268,10 +268,10 @@ def image_ext_with_word_var(map_name, cnn, gis_data, text_phoc_info, global_stat
     embedding, embedding_var, word_var_strings, word_var_dir, root_word_var, conf_set = text_phoc_info
     original_report = report_matches(img_phoc_embs, embedding, 'cosine', gis_data, words, 1, word_filter_len)
     global_stats['correct_original'] += original_report[0]
-    print 'Original Accuracy ', str(original_report[0]/float(len(original_report[4])))
+    # print 'Original Accuracy ', str(original_report[0]/float(len(original_report[4])))
     word_var_report = report_matches_with_variations(img_phoc_embs, embedding_var,'cosine', words, word_var_strings, word_var_dir, root_word_var, 1, word_filter_len)
     global_stats['correct_word_var'] += word_var_report[0]
-    print 'Accuracy With Word Variations ', str(word_var_report[0]/float(len(word_var_report[4])))
+    # print 'Accuracy With Word Variations ', str(word_var_report[0]/float(len(word_var_report[4])))
     global_stats['total'] += len(word_var_report[4])
     img_dir_info = np.array([word_var_report[2], word_var_report[3], word_var_report[4]])
     return img_dir_info, word_var_report[6], conf_set
@@ -291,8 +291,8 @@ global_stats = {'correct_original':0, 'correct_word_var':0, 'total':0}
 
 print map_name
 img_dir_info, words, conf_words = image_ext_with_word_var(map_name, cnn, gis_data, text_phoc_info, global_stats)
-np.save('../../../images_to_extend/ray_output_gis/org_img_ext_2var/image_dir_'+map_name+'.npy', img_dir_info)
-np.save('../../../images_to_extend/ray_output_gis/org_img_ext_2var/image_labels_'+map_name+'.npy', words)
+np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_dir_'+map_name+'.npy', img_dir_info)
+np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_labels_'+map_name+'.npy', words)
 
 print 'Accuracy Original', global_stats['correct_original']/float(global_stats['total'])
 print 'Accuracy With Word Variations', global_stats['correct_word_var']/float(global_stats['total'])
