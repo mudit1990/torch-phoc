@@ -25,6 +25,7 @@ from torch.utils.data.sampler import WeightedRandomSampler
 from cnn_ws.utils.save_load import my_torch_save, my_torch_load
 
 
+model_path = 'models/PHOCNet_Nov13.pt' # path of the phoc model to use
 
 word_filter_len = 1 # only words above this length are considered valid
 max_var_len = 2 # max length word variation that needs to be done
@@ -41,7 +42,7 @@ pass
 
 
 
-model_ = torch.load('models/PHOCNet_Nov13.pt')
+model_ = torch.load(model_path)
 cnn = model_.module#list(model_.named_parameters())
 if gpu_id is not None:
         if len(gpu_id) > 1:
@@ -93,7 +94,7 @@ def clean_word_images(images, words):
     return images, words
 
 def load_and_clean_gis_data():
-    with open('../../../GIS_data/GIS_combined.txt') as f:
+    with open('../GIS_data/GIS_combined.txt') as f:
         gis_data = np.array(f.read().splitlines())
     gis_data = clean_words(gis_data)
     print 'GIS Data', gis_data.shape
@@ -322,8 +323,6 @@ text_phoc_info = get_word_phoc_representations(gis_data)
 global_stats = {'correct_before':0, 'correct_after':0, 'total':0}
 stats = compare_images_before_after_ext(map_name, cnn, global_stats, text_phoc_info)
 
-# import pickle
-# pickle.dump(stats, open('../../../before_after_outputs/'+map_name,'wb'))
 
 print "the accuracy before extension: " + str(stats[0])
 print "the accuracy after extension: "+str(stats[1])

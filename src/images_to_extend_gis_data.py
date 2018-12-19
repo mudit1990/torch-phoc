@@ -23,6 +23,8 @@ from torch.utils.data.sampler import WeightedRandomSampler
 
 from cnn_ws.utils.save_load import my_torch_save, my_torch_load
 
+model_path = 'models/PHOCNet_Nov13.pt' # path of the phoc model to use
+
 word_filter_len = 1 # only words above this length are considered valid
 max_var_len = 1 # max length word variation that needs to be done
 
@@ -35,7 +37,7 @@ else:
 pass
 
 
-model_ = torch.load('models/PHOCNet_Nov13.pt')
+model_ = torch.load(model_path)
 cnn = model_.module#list(model_.named_parameters())
 if gpu_id is not None:
         if len(gpu_id) > 1:
@@ -67,7 +69,7 @@ def load_and_transform(map_name):
     return images, words
 
 def load_and_clean_gis_data():
-    with open('../../../GIS_data/GIS_combined.txt') as f:
+    with open('../GIS_data/GIS_combined.txt') as f:
         gis_data = np.array(f.read().splitlines())
     gis_data = clean_words(gis_data)
     print 'GIS Data', gis_data.shape
@@ -291,8 +293,8 @@ global_stats = {'correct_original':0, 'correct_word_var':0, 'total':0}
 
 print map_name
 img_dir_info, words, conf_words = image_ext_with_word_var(map_name, cnn, gis_data, text_phoc_info, global_stats)
-np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_dir_'+map_name+'.npy', img_dir_info)
-np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_labels_'+map_name+'.npy', words)
+# np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_dir_'+map_name+'.npy', img_dir_info)
+# np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_labels_'+map_name+'.npy', words)
 
 print 'Accuracy Original', global_stats['correct_original']/float(global_stats['total'])
 print 'Accuracy With Word Variations', global_stats['correct_word_var']/float(global_stats['total'])
