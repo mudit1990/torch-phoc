@@ -1,5 +1,5 @@
 ### Readme File
-https://docs.google.com/document/d/1ExURc_Yi76-FEBz1e7iuzYeHCG_ENSAjmml8wyb8le0/edit?usp=sharing
+https://docs.google.com/document/d/1ExURc_Yi76-FEBz1e7iuzYeHCG_ENSAjmml8wyb8le0/edit?usp=sharing has the instructions to run.
 
 "# torch-phoc" 
 1. go to `src/train.py` to run training code.
