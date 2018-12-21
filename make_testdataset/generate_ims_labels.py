@@ -1,7 +1,5 @@
 """
-THis .py file to generate regions and labels for the given input map.
-Make sure the path files are proper.
-
+Generates after extension regions and labels for input map name.
 """
 
 import numpy as np
@@ -12,7 +10,6 @@ from scipy import ndimage
 import cv2
 from tqdm import tqdm
 import sys
-from scipy.misc import imsave
 
 def distance(x1, x2):
     return int(math.hypot(x2[0] - x1[0], x2[1] - x1[1]))
@@ -55,23 +52,28 @@ def rotateImage(img, angle, pivot, height, width):
         ratio = float(188)/imgR.shape[1]
     else:
         ratio = float(188)/imgR.shape[0]
-    imgR = cv2.resize( imgR, (0,0), fx=ratio, fy=ratio )
+    try:
+        imgR = cv2.resize( imgR, (0,0), fx=ratio, fy=ratio )
+    except:
+        print "In rotateImage() function"
     return imgR
 
-def _save_data(_file_name, path_to_images, path_to_anots, path_to_detections, path_to_alignment):
+def _save_data(_file_name, path_to_images, path_to_anots, path_to_detections, path_to_alignment,path_to_id):
     # A is a dictionary of dictionaries
     # B is list of all detections
     # C is the alignment matrix between B and C
     A = np.load(path_to_anots+_file_name+'.npy').item()
     B = np.load(path_to_detections+_file_name+'.npy')
     C = np.load(path_to_alignment+_file_name+'.npy')
-    
+    arr = np.load(path_to_id)
+    arr = arr[0]
+    idx = 0
     # get the image
     I = mpimg.imread(path_to_images+_file_name+'.tiff')
 
     _annotations = []
     _images = []
-
+    detection_num=0 #Where it is failing
     # loop over all detections
     for i in tqdm(range(len(B))):
         fulcrum = map(int,B[i][0])
@@ -86,35 +88,37 @@ def _save_data(_file_name, path_to_images, path_to_anots, path_to_detections, pa
         I_cache, fulcrum = get_crop(I_cache, B[i], fulcrum)
         extracted_crop = rotateImage(I_cache, _angle, fulcrum, height, width)
         try:
-            final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC)
+            final_img = cv2.resize(extracted_crop, dsize=(487, 135), interpolation=cv2.INTER_CUBIC) #This throws an error if im too small. 722,727,1278 in Mudit's 117 image_to_extend
         except Exception as e:
-            print(e)
+            print e
+            #print "In other function"
+            print str(detection_num)
             print str(B[i])
             continue #I"M CONTINUING. CAREFUL!
+            
         # get label
-        if C[i] == 0:
+        if C[arr[idx]] == 0:
             label = 'no label attached'
         else:
             try:
-                label = (A[int(C[i] - 1)]['name']).encode('utf-8')
+                label = str(A[int(C[arr[idx]] - 1)]['name'])
             except Exception as e:
                 print(e)
-                label = 'no label attached'
-
+                label = "no label attached"
+        idx+=1
         _images.append(final_img)
         _annotations.append(label)
-
+        detection_num+=1
     return _images, _annotations
 
 
 path_to_images = '../../phoc_data/maps/'
 path_to_anots = '../jerods_annotations/'
-#path_to_detections = '../detection_outputs/'
-#path_to_detections = '../detection_outputs_lines/'
-path_to_detections = '../detection_outputs_lines_ext_2/'
-#path_to_alignment = '../detection_alignment/'
-#path_to_alignment = '../detection_alignment_lines/'
-path_to_alignment = '../detection_alignment_lines_ext_2/'
+#path_to_detections = '../detection_outputs_new/ray_output_gis/' #Generated from extend_image.py
+path_to_detections = '../detection_outputs_new/ray_output_normal/' # From extend_image.py
+path_to_alignment = '../detection_alignment_lines/' # For ray_regions (and now extendby2)
+#path_to_alignment = '../detection_alignment_lines_ext_2/'
+#path_to_id = '../images_to_extend/image_dir_D0090-5242001.npy'
 '''
 image_lst=[]
 for files in glob.glob('../detection_alignment/*'):
@@ -129,12 +133,12 @@ for files in glob.glob('../detection_alignment/*'):
         
 image_name = sys.argv[1]
 print image_name
-#for image_name in image_lst:
+#path_to_id = '../images_to_extend/image_dir_'+image_name+'.npy'
+#path_to_id = '../images_to_extend/ray_output_gis/image_dir_'+image_name+'.npy'
+#path_to_id = '../images_to_extend/ray_output_ext_2/image_dir_'+image_name+'.npy'
+path_to_id = '../images_to_extend/ray_output_normal/image_dir_'+image_name+'.npy'
 original_images, original_words = _save_data(image_name, \
-    path_to_images, path_to_anots, path_to_detections, path_to_alignment)
-#np.save('../detection_outputs_ready_for_test/detected_regions/'+image_name+'.npy', original_images)
-np.save('../detection_outputs_ready_for_test/ray_regions_ext_2/'+image_name+'.npy', original_images)
-#np.save('../detection_outputs_ready_for_test/detected_labels/'+image_name+'.npy', original_words)
-np.save('../detection_outputs_ready_for_test/ray_labels_ext_2/'+image_name+'.npy', original_words)
-
+        path_to_images, path_to_anots, path_to_detections, path_to_alignment,path_to_id)
+np.save('../detection_outputs_ready_for_test/ray_regions_normal/'+image_name+'.npy', original_images)
+np.save('../detection_outputs_ready_for_test/ray_labels_normal/'+image_name+'.npy', original_words)
 print(image_name+" done.")
