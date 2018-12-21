@@ -110,11 +110,11 @@ def _save_data(_file_name, path_to_images, path_to_anots, path_to_detections, pa
 path_to_images = '../../phoc_data/maps/'
 path_to_anots = '../jerods_annotations/'
 #path_to_detections = '../detection_outputs/'
-#path_to_detections = '../detection_outputs_lines/'
-path_to_detections = '../detection_outputs_lines_ext_2/'
+path_to_detections = '../detection_outputs_lines/'
+#path_to_detections = '../detection_outputs_lines_ext_2/'
 #path_to_alignment = '../detection_alignment/'
-#path_to_alignment = '../detection_alignment_lines/'
-path_to_alignment = '../detection_alignment_lines_ext_2/'
+path_to_alignment = '../detection_alignment_lines/'
+#path_to_alignment = '../detection_alignment_lines_ext_2/'
 '''
 image_lst=[]
 for files in glob.glob('../detection_alignment/*'):
