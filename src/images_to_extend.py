@@ -72,8 +72,8 @@ def clean_words(words):
     return words
 
 def load_and_transform(map_name):
-    images = np.load('/mnt/nfs/work1/696ds-s18/mbhargava/detection_outputs_ready_for_test/ray_regions/org_clips/'+map_name+'.npy')
-    words = np.load('/mnt/nfs/work1/696ds-s18/mbhargava/detection_outputs_ready_for_test/ray_labels/org_clips/'+map_name+'.npy')
+    images = np.load('../detection_outputs_ready_for_test/ray_regions_normal_before/'+map_name+'.npy')
+    words = np.load('../detection_outputs_ready_for_test/ray_labels_normal_before/'+map_name+'.npy')
     # images = np.load('../../../ProcessedData/original_images_nopad_'+map_name+'.tiff.npy')
     # words = np.load('../../../ProcessedData/original_words_nopad_'+map_name+'.tiff.npy')
     images = np.transpose(images, (0,3,1,2))
@@ -292,7 +292,7 @@ global_stats = {'correct_original':0, 'correct_word_var':0, 'total':0}
 for i in tqdm(range(len(A)), ascii=True, desc = 'Main Iteration'):
     print A[i]
     img_dir_info, words, conf_words, original_report, word_var_report = image_ext_with_word_var(A[i], cnn, global_stats)
-    # np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_normal/image_dir_'+A[i]+'.npy', img_dir_info)
-    # np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_normal/image_labels_'+A[i]+'.npy', words)
+    np.save('../images_to_extend/ray_output_normal/image_dir_'+A[i]+'.npy', img_dir_info)
+    np.save('../images_to_extend/ray_output_normal/image_labels_'+A[i]+'.npy', words)
 print 'Average Accuracy Original', global_stats['correct_original']/float(global_stats['total'])
 print 'Average Accuracy With Word Variations', global_stats['correct_word_var']/float(global_stats['total'])

@@ -107,7 +107,7 @@ def _save_data(_file_name, path_to_images, path_to_anots, path_to_detections, pa
     return _images, _annotations
 
 
-path_to_images = '../../phoc_data/maps/'
+path_to_images = '/mnt/nfs/work1/696ds-s18/mbhargava/OriginalData/maps/'
 path_to_anots = '../jerods_annotations/'
 #path_to_detections = '../detection_outputs/'
 path_to_detections = '../detection_outputs_lines/'

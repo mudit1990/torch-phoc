@@ -78,14 +78,14 @@ def clean_words(words):
 # the function also assumes that ground truth words are the same before and after
 # returns before_images, after_images, words
 def load_and_transform(map_name):
-    images_before = np.load('../../../detection_outputs_ready_for_test/ray_regions/'+map_name+'.npy')
-    words_before = np.load('../../../detection_outputs_ready_for_test/ray_labels/'+map_name+'.npy')
+    images_before = np.load('../detection_outputs_ready_for_test/ray_regions_normal_before/'+map_name+'.npy')
+    words_before = np.load('../detection_outputs_ready_for_test/ray_labels_normal_before/'+map_name+'.npy')
     words_before = clean_words(words_before)
     images_before, words_before = clean_word_images(images_before, words_before)
     images_before = np.transpose(images_before, (0,3,1,2))
     
-    images_after = np.load('../../../detection_outputs_ready_for_test/ray_regions_new/'+map_name+'.npy')
-    words_after = np.load('../../../detection_outputs_ready_for_test/ray_labels_new/'+map_name+'.npy')
+    images_after = np.load('../detection_outputs_ready_for_test/ray_regions_normal_after/'+map_name+'.npy')
+    words_after = np.load('../detection_outputs_ready_for_test/ray_labels_normal_after/'+map_name+'.npy')
     words_after = clean_words(words_after)
     images_after, words_after = clean_word_images(images_after, words_after)
     images_after = np.transpose(images_after, (0,3,1,2))
@@ -282,7 +282,7 @@ def save_before_after_preds(map_name, before_report, after_report, ground_truth)
     before_preds = [w[0] for w in before_report[1]]
     after_preds = [w[0] for w in after_report[1]]
     before_after_pred = np.array([before_preds, after_preds, ground_truth]).T
-    np.save('../../../before_after_ext_pred/ray_detections/'+map_name+'.npy', before_after_pred)
+    np.save('../before_after_ext_pred/'+map_name+'.npy', before_after_pred)
 
 def compare_images_before_after_ext(map_name, cnn, global_stats):
     images_before, images_after, words = load_and_transform(map_name)
@@ -300,7 +300,7 @@ def compare_images_before_after_ext(map_name, cnn, global_stats):
     update_dist_matrix(dist_matrix_before, dist_matrix_after, conf_idx)
     # build the report after extension
     match_report_after = report_matches_with_variations(dist_matrix_after, words, word_emb_info, 1)
-    # save_before_after_preds(map_name, match_report_before, match_report_after, words)
+    save_before_after_preds(map_name, match_report_before, match_report_after, words)
     global_stats['correct_before'] += match_report_before[0]
     global_stats['correct_after'] += match_report_after[0]
     global_stats['total'] += len(words)

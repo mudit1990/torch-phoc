@@ -60,8 +60,8 @@ def clean_words(words):
     return words
 
 def load_and_transform(map_name):
-    images = np.load('/mnt/nfs/work1/696ds-s18/mbhargava/detection_outputs_ready_for_test/ray_regions/org_clips/'+map_name+'.npy')
-    words = np.load('/mnt/nfs/work1/696ds-s18/mbhargava/detection_outputs_ready_for_test/ray_labels/org_clips/'+map_name+'.npy')
+    images = np.load('../detection_outputs_ready_for_test/ray_regions_normal_before/'+map_name+'.npy')
+    words = np.load('../detection_outputs_ready_for_test/ray_labels_normal_before/'+map_name+'.npy')
     images = np.transpose(images, (0,3,1,2))
     words = clean_words(words)
     print 'Images Shape ', images.shape
@@ -293,8 +293,8 @@ global_stats = {'correct_original':0, 'correct_word_var':0, 'total':0}
 
 print map_name
 img_dir_info, words, conf_words = image_ext_with_word_var(map_name, cnn, gis_data, text_phoc_info, global_stats)
-# np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_dir_'+map_name+'.npy', img_dir_info)
-# np.save('/mnt/nfs/work1/696ds-s18/mbhargava/images_to_extend/final_runs/ray_output_gis/image_labels_'+map_name+'.npy', words)
+np.save('../images_to_extend/ray_output_normal/image_dir_'+map_name+'.npy', img_dir_info)
+np.save('../images_to_extend/ray_output_normal/image_labels_'+map_name+'.npy', words)
 
 print 'Accuracy Original', global_stats['correct_original']/float(global_stats['total'])
 print 'Accuracy With Word Variations', global_stats['correct_word_var']/float(global_stats['total'])
