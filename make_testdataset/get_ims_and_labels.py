@@ -1,6 +1,6 @@
 """
 THis .py file to generate regions and labels for the given input map.
-Make sure the path files are proper.
+Make sure the path files near the end are proper.
 
 """
 
@@ -133,8 +133,10 @@ print image_name
 original_images, original_words = _save_data(image_name, \
     path_to_images, path_to_anots, path_to_detections, path_to_alignment)
 #np.save('../detection_outputs_ready_for_test/detected_regions/'+image_name+'.npy', original_images)
-np.save('../detection_outputs_ready_for_test/ray_regions_ext_2/'+image_name+'.npy', original_images)
+#np.save('../detection_outputs_ready_for_test/ray_regions_ext_2/'+image_name+'.npy', original_images)
+np.save('../detection_outputs_ready_for_test/ray_regions_normal_before/'+image_name+'.npy', original_images)
 #np.save('../detection_outputs_ready_for_test/detected_labels/'+image_name+'.npy', original_words)
-np.save('../detection_outputs_ready_for_test/ray_labels_ext_2/'+image_name+'.npy', original_words)
+#np.save('../detection_outputs_ready_for_test/ray_labels_ext_2/'+image_name+'.npy', original_words)
+np.save('../detection_outputs_ready_for_test/ray_labels_normal_before/'+image_name+'.npy', original_words)
 
 print(image_name+" done.")

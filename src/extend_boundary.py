@@ -1,3 +1,7 @@
+"""
+Change the paths. Change the function arguments for create_new_outputs 
+"""
+
 import numpy as np
 from scipy.misc import imsave
 from PIL import Image

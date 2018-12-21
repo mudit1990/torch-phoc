@@ -139,6 +139,6 @@ print image_name
 path_to_id = '../images_to_extend/ray_output_normal/image_dir_'+image_name+'.npy'
 original_images, original_words = _save_data(image_name, \
         path_to_images, path_to_anots, path_to_detections, path_to_alignment,path_to_id)
-np.save('../detection_outputs_ready_for_test/ray_regions_normal/'+image_name+'.npy', original_images)
-np.save('../detection_outputs_ready_for_test/ray_labels_normal/'+image_name+'.npy', original_words)
+np.save('../detection_outputs_ready_for_test/ray_regions_normal_after/'+image_name+'.npy', original_images)
+np.save('../detection_outputs_ready_for_test/ray_labels_normal_after/'+image_name+'.npy', original_words)
 print(image_name+" done.")
