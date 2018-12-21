@@ -6,7 +6,7 @@
 5. to create new dataset, run `make_dataset/make_data_for_test.py`. Please fix the path variables to direct to the correct files.
 6. Check the padded and aspect options for generating the dataset.
 
-For a detailed ReadMe, refer [this](https://docs.google.com/document/d/1ExURc_Yi76-FEBz1e7iuzYeHCG_ENSAjmml8wyb8le0/edit?usp=sharing) google doc.
+For a detailed Read-Me, refer [this](https://docs.google.com/document/d/1ExURc_Yi76-FEBz1e7iuzYeHCG_ENSAjmml8wyb8le0/edit?usp=sharing) google doc.
 
 Make sure: you have maps, alignment ids, annotations and the bounding boxes for the next four steps.
 
